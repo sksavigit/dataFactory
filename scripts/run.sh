@@ -1,12 +1,7 @@
 #!/bin/bash
 # Author : Susil Kumar Nagarajan, Hexaware Technologies
-# Created: 2017 February 
 # Purpose: Data Extraction Automation Process - 
 #          dataFactory->run.sh should be able to process given SQLs
-# JIRA Ref: SCM-19203
-
-
-
 
 if [[ $# -eq 0 || $# -gt 1 ]]
 then
@@ -21,16 +16,16 @@ fi
 
 
 flagV=$1_
-SCRIPT_PATH=/interface/dataFactory/scripts/SQLs/
-DATA_PATH=/interface/dataFactory/data/
-ARCHIVE_PATH=/interface/dataFactory/data/backup/
+SCRIPT_PATH=/dataFactory/scripts/SQLs/
+DATA_PATH=/dataFactory/data/
+ARCHIVE_PATH=/dataFactory/data/backup/
 MAIL_GROUP=`cat mail.group`
 MAIL_SENDER=`cat mail.sender`
-LOG_DIR=/interface/dataFactory/log/
-LOG_FILE=/interface/dataFactory/log/`date +%Y%m%d%H%M%S`.log
+LOG_DIR=/dataFactory/log/
+LOG_FILE=/dataFactory/log/`date +%Y%m%d%H%M%S`.log
 SQL_FLUSH=sqlFlush.log
 SEARCHSQL=`ls -1 $SCRIPT_PATH$flagV*.sql`
-ERROR_LOG=/interface/dataFactory/log/err.log
+ERROR_LOG=/dataFactory/log/err.log
 echo "Data factory process started `date +%Y%m%d%H%M%S`" > $LOG_FILE
 
 #Archive files created before
@@ -49,7 +44,7 @@ do
    cat fileFormat.config > runScript.sql
    echo '@'$var >> runScript.sql
    echo 'exit'  >> runScript.sql
-   sqlplus / @runScript.sql > $SQL_FLUSH
+   sqlplus / @runScript.sql > $SQL_FLUSH	#You may well use $SQLLOGIN env variable set -> sqlplus $SQLLOGIN @runScript.sql > $SQL_FLUSH
    errCount=`cat $SQL_FLUSH | grep "ORA"|wc -l`
    if [ $errCount -gt 0 ]
    then
@@ -61,20 +56,7 @@ do
  fi
 done
 
-#echo
-#echo "Preparing - Master Script" >> $LOG_FILE
-#echo
-#cat fileFormat.config > masterScript.sql
-#ls -lrt $SCRIPT_PATH$flagV*.sql | awk '{print "PROMPT Script:"$9"-Started\n@"$9";\nPROMPT Script:"$9"-Completed\n"}'|grep -v "@;" >> masterScript.sql
-#echo "exit;">>masterScript.sql
-#echo "Master script created successfully!" >> $LOG_FILE
-#sleep 5 #wait for 5 seconds before going to next step
-#sqlplus / @masterScript.sql > $LOG_DIR$SQL_FLUSH
-#cat $LOG_DIR$SQL_FLUSH | grep "ORA">>$LOG_FILE;
-#rm $LOG_DIR$SQL_FLUSH;
-#echo "Data factory process completed successfully `date +%Y%m%d%H%M%S` " >> $LOG_FILE;
-
-#Send notification to SD_BOCH
+#Send notification
 cat mail.header > mail.content
 ls -lrth $DATA_PATH$flagV*  | awk '{print $9 "     Size:" $5 "  "$8" "$7" "$6}'>>mail.content
 errCount=`cat $ERROR_LOG|grep "ORA"|wc -l`
@@ -90,6 +72,8 @@ echo
 fi
 cat mail.footer >> mail.content
 cat mail.disclaimer>>mail.content
+
+# Note: You have to have mail server configured
 
 mail -s 'Data Factory - Notification :'`date +%Y%m%d` -r $MAIL_SENDER $MAIL_GROUP < mail.content
 echo "Email notification processed successfully" >> $LOG_FILE

@@ -1,8 +1,0 @@
-Data factory process started 20170222172354
-Backup started 
-Backup completed
-Processing script /interface/dataFactory/scripts/SQLs/m_ad_proposals.sql
-Processing script /interface/dataFactory/scripts/SQLs/m_table_values.sql
-Processing script /interface/dataFactory/scripts/SQLs/m_table_valuesErr.sql
-Processing script /interface/dataFactory/scripts/SQLs/m_table_values_err.sql
-Email notification processed successfully
