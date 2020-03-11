@@ -1,0 +1,12 @@
+Data factory process started 20170222155040
+Backup started 
+Backup completed
+Processing script SQLs
+Processing script fileFormat.config
+Processing script mail.content
+Processing script mail.disclaimer
+Processing script mail.footer
+Processing script mail.group
+Processing script mail.header
+Processing script mail.sender
+Processing script masterScript.sql

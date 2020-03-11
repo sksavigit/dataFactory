@@ -1,0 +1,4 @@
+SET SERVEROUT ON SIZE 1000000
+SET HEADING OFF ECHO OFF FEEDBACK OFF TRIMSPOOL ON LINES 2000 PAGES 0
+@/interface/dataFactory/scripts/SQLs/w_ad_proposals.sql
+exit

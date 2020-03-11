@@ -1,0 +1,5 @@
+Data factory process started 20170222160333
+Backup started 
+Backup completed
+Processing script /interface/dataFactory/scripts/SQLs/w_ad_proposals.sql
+Email notification processed successfully
