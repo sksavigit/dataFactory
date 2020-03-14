@@ -22,3 +22,4 @@ README INSTRUCTION 4: Once you are done with above steps, go ahead execute data 
 		    : /dataFactory/scripts/run.sh d # To run daily extractions
 
 Should you have any questions or help on setting this up, please drop an email at sksavi@yahoo.com.
+Thank you!
